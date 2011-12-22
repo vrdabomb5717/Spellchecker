@@ -90,7 +90,16 @@ def generate_repeat_error(word):
     Returns a string with repeated errors.
     """
 
-    return word
+    output = cStringIO.StringIO()
+
+    for letter in word:
+        repeated_letters = random.randint(1, 4)
+        for x in xrange(repeated_letters):
+            output.write(letter)
+
+    contents = output.getvalue()
+    output.close()
+    return contents
 
 
 if __name__ == '__main__':
