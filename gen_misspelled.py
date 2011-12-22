@@ -11,7 +11,7 @@ def load_dict(dict_path):
     """
 
     f = open(dict_path, 'r')
-    words = {}
+    words = set({})
 
     # add each line to our set representing the dictionary
     for line in f:
@@ -39,7 +39,8 @@ def misspell(words):
 
 
 def generate_case_error(word):
-    """ Takes a string and chooses characters at random to make UPPERCASE.
+    """ Takes a string and chooses characters at random to make UPPERCASE, e.g.
+    "inside" => "inSIDE"
 
     Returns a string with a case error in it.
     """
@@ -54,6 +55,39 @@ def generate_case_error(word):
     output.close()
     return contents
 
+
+def generate_vowel_error(word):
+    """ Takes a string and makes vowels in the string other vowels, at random,
+    e.g. "wake" => "weke". NOTE: 'y' is not considered to be a vowel.
+
+    Returns a string with incorrect vowels.
+    """
+
+    vowels = ['a', 'e', 'i', 'o', 'u']
+
+    output = cStringIO.StringIO()
+
+    for letter in word:
+
+        if letter in vowels:
+            v = random.choice(vowels)
+            output.write(v)
+        else:
+            output.write(letter)
+
+    contents = output.getvalue()
+    output.close()
+    return contents
+
+
+def generate_repeat_error(word):
+    """ Takes a string and randomly chooses letters to repeat.
+    e.g. "job" => "jjoobbb".
+
+    Returns a string with repeated errors.
+    """
+
+    pass
 
 dict_loc = '/usr/share/dict/words'
 words = load_dict(dict_loc)
