@@ -15,7 +15,7 @@ def load_dict(dict_path):
 
     # add each line to our set representing the dictionary
     for line in f:
-        words.add(line)
+        words.add(str.strip(line))
 
     return words
 
@@ -34,8 +34,11 @@ def misspell(words):
     Returns an English word spelled incorrectly, as a string.
     """
 
-    random_word = words.pop()
-    words.add(random_word)
+    errors = [generate_case_error, generate_vowel_error, generate_repeat_error]
+
+    random_word = random.sample(words, 1)
+    mistake_func = random.choice(errors)
+    return mistake_func(random_word[0])
 
 
 def generate_case_error(word):
@@ -87,7 +90,12 @@ def generate_repeat_error(word):
     Returns a string with repeated errors.
     """
 
-    pass
+    return word
 
-dict_loc = '/usr/share/dict/words'
-words = load_dict(dict_loc)
+
+if __name__ == '__main__':
+    dict_loc = '/usr/share/dict/words'
+    words = load_dict(dict_loc)
+
+    for x in xrange(15):
+        print misspell(words)
