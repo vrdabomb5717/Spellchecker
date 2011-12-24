@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+
+import argparse
 import random
 import cStringIO
+import sys
 
 
 def load_dict(dict_path):
@@ -10,11 +14,10 @@ def load_dict(dict_path):
     Returns a set with all words in the dictionary.
     """
 
-    f = open(dict_path, 'r')
     words = set({})
 
     # add each line to our set representing the dictionary
-    for line in f:
+    for line in dict_path:
         words.add(str.strip(line))
 
     return words
@@ -34,7 +37,13 @@ def misspell(words):
     Returns an English word spelled incorrectly, as a string.
     """
 
-    errors = [generate_case_error, generate_vowel_error, generate_repeat_error]
+    repeat_case = lambda x: generate_repeat_error(generate_case_error(x))
+    repeat_vowel = lambda x: generate_repeat_error(generate_vowel_error(x))
+    case_vowel = lambda x: generate_case_error(generate_vowel_error(x))
+    repeat_case_vowel = lambda x: generate_repeat_error(case_vowel(x))
+
+    errors = [generate_case_error, generate_vowel_error, generate_repeat_error,
+    repeat_case, repeat_vowel, case_vowel, repeat_case_vowel]
 
     random_word = random.sample(words, 1)
     mistake_func = random.choice(errors)
@@ -103,8 +112,24 @@ def generate_repeat_error(word):
 
 
 if __name__ == '__main__':
-    dict_loc = '/usr/share/dict/words'
-    words = load_dict(dict_loc)
+    parser = argparse.ArgumentParser(description='Generate misspelled words \
+    with case errors, vowel errors, or repeated letters.', add_help=True,
+    version='1.0')
 
-    for x in xrange(15):
+    parser.add_argument('-d', help='location of system dictionary file',
+    action="store", dest='dict_loc', type=argparse.FileType('r'),
+    default='/usr/share/dict/words')
+
+    parser.add_argument('-c', help='number of misspelled words to generate',
+    dest='count', type=int, default=15)
+
+    results = parser.parse_args()
+
+    words = load_dict(results.dict_loc)
+
+    if results.count < 0:
+        print >> sys.stderr, "gen_misspelled.py: error: argument -c: invalid \
+int value less than 0"
+
+    for x in xrange(results.count):
         print misspell(words)
