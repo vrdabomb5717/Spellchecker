@@ -11,7 +11,7 @@ import sys
 
 __author__ = "Varun Ravishankar"
 __copyright__ = "Copyright 2011, Varun Ravishankar"
-__license__ = "BSD"
+__license__ = "BSD New"
 __version__ = "0.9"
 __email__ = "varun.ravishankar@gmail.com"
 __status__ = "Development"
