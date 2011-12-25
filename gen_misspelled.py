@@ -1,9 +1,20 @@
 #!/usr/bin/env python
+""" Provides load_dict, misspell, generate_case_error, generate_vowel_error,
+and generate_repeat_error, functions to load a dictionary and then generate
+misspelled words with case errors, vowel errors, and repeated letters.
+"""
 
 import argparse
 import random
 import cStringIO
 import sys
+
+__author__ = "Varun Ravishankar"
+__copyright__ = "Copyright 2011, Varun Ravishankar"
+__license__ = "BSD"
+__version__ = "0.9"
+__email__ = "varun.ravishankar@gmail.com"
+__status__ = "Development"
 
 
 def load_dict(dict_path):
